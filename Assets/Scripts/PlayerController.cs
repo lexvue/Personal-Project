@@ -12,11 +12,14 @@ public class PlayerController : MonoBehaviour
     private Rigidbody playerRb;
     private Animator playerAnim;
     public float xBound = 6.0f;
-    private bool isAlive = true;
+    public bool isAlive = false;
     public GameObject arrowBox;
     public GameObject arrow;
     public float arrowCooldown = 0.05f;
     private bool canShoot = true;
+    private GameManager gameManager;
+    private Vector3 gravity = Physics.gravity;
+
 
     // Start is called before the first frame update
     void Start()
@@ -24,6 +27,8 @@ public class PlayerController : MonoBehaviour
         playerRb = GetComponent<Rigidbody>();
         playerAnim = GetComponent<Animator>();
         Physics.gravity *= gravityModifier;
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+
     }
 
     // Update is called once per frame
@@ -70,6 +75,8 @@ public class PlayerController : MonoBehaviour
             gameOver = true;
             isAlive = false;
             playerAnim.Play("Death");
+            Physics.gravity = gravity;
+            gameManager.GameOver();
         }
     }
 

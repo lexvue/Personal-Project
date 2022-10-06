@@ -12,14 +12,13 @@ public class SpawnManager : MonoBehaviour
     private float spawnLimitHiY = 6;
     private float spawnLimitLoY = 3;
 
-    private float spawnInterval;
+
     private PlayerController _playerController;
 
     // Start is called before the first frame update
     void Start()
     {
         _playerController = GameObject.Find("Player").GetComponent<PlayerController>();
-        StartCoroutine(SpawnInterval());
     }
 
     // Update is called once per frame
@@ -28,11 +27,11 @@ public class SpawnManager : MonoBehaviour
         
     }
 
-    IEnumerator SpawnInterval() {
-        spawnInterval = Random.Range(2,6);
+    public IEnumerator SpawnInterval(float spawnInterval) {
+    
         yield return new WaitForSeconds(spawnInterval);
         SpawnRandomEnemy();
-        StartCoroutine(SpawnInterval());
+        StartCoroutine(SpawnInterval(spawnInterval));
     }
 
     void SpawnRandomEnemy() {

@@ -8,24 +8,33 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public List<GameObject> targets;
-    private float spawnRate = 1.0f;
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI gameOverText;
     public Button restartButton;
 
     public GameObject titleScreen;
-    public PlayerController _;
+    private PlayerController playerController;
+    private SpawnManager spawnManager;
+
+    private float spawnInterval;
+    private float spawnRandLo = 3;
+    private float spawnRandHi = 6;
 
     private int score; 
 
+    void Start()
+    {
+        playerController = GameObject.Find("Player").GetComponent<PlayerController>();
+        spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
 
-    public void UpdateScore(int scoreToAdd) {
-        score += scoreToAdd;
-        scoreText.text = "Score: " + score;
     }
 
+    // public void UpdateScore(int scoreToAdd) {
+    //     score += scoreToAdd;
+    //     scoreText.text = "Score: " + score;
+    // }
+
     public void GameOver() {
-        isGameActive = false;
         gameOverText.gameObject.SetActive(true);
         restartButton.gameObject.SetActive(true);
 
@@ -36,10 +45,15 @@ public class GameManager : MonoBehaviour
     }
 
     public void StartGame(int difficulty) {
+
+        spawnRandLo /= difficulty;
+        spawnRandHi /= difficulty;
+
         titleScreen.gameObject.SetActive(false);
-        isGameActive = true;
-        spawnRate /= difficulty;
-        score = 0;
-        UpdateScore(0);
+        spawnInterval = Random.Range(spawnRandLo, spawnRandHi);
+        StartCoroutine(spawnManager.SpawnInterval(spawnInterval));
+        playerController.isAlive = true;
+        //score = 0;
+        //UpdateScore(0);
     }
 }
