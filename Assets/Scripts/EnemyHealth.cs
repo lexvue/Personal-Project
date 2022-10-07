@@ -5,17 +5,19 @@ using UnityEngine;
 public class EnemyHealth : MonoBehaviour
 {
     public int health = 1;
-    // Start is called before the first frame update
+    public int pointValue;
+    private GameManager gameManager;
+
     void Start()
     {
-        
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (health <= 0) {
             Destroy(gameObject);
+            gameManager.UpdateScore(pointValue);
         }
     }
 }

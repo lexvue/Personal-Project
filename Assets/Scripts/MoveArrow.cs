@@ -4,18 +4,10 @@ using UnityEngine;
 
 public class MoveArrow : MonoBehaviour
 {
-
     private float rightBound = 15;
     public float speed = 5.0f;
     public GameObject hitEnemyParticle;
-    
 
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
-
-    // Update is called once per frame
     void Update()
     {
         if (transform.position.x < rightBound) {
@@ -26,7 +18,6 @@ public class MoveArrow : MonoBehaviour
     }
 
     private void OnCollisionEnter(Collision other) {
-
         if (other.gameObject.CompareTag("Enemy")) {
             Destroy(gameObject);
             EnemyHealth _enemyHealth = other.gameObject.GetComponent<EnemyHealth>();

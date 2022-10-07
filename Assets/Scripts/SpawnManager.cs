@@ -12,26 +12,28 @@ public class SpawnManager : MonoBehaviour
     private float spawnLimitHiY = 6;
     private float spawnLimitLoY = 3;
 
+    private float spawnInterval;
+    private float spawnRandLo = 3;
+    private float spawnRandHi = 6;
+
+    private const float loRange = 3;
+    private const float hiRange = 6;
 
     private PlayerController _playerController;
 
-    // Start is called before the first frame update
     void Start()
     {
         _playerController = GameObject.Find("Player").GetComponent<PlayerController>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public IEnumerator SpawnInterval(float spawnInterval) {
-    
+    public IEnumerator SpawnInterval(float difficulty) {
+        spawnRandLo = loRange / difficulty;
+        spawnRandHi = hiRange / difficulty;
+        spawnInterval = Random.Range(spawnRandLo, spawnRandHi);
+        Debug.Log("Spawn Interval = " + spawnInterval);
         yield return new WaitForSeconds(spawnInterval);
         SpawnRandomEnemy();
-        StartCoroutine(SpawnInterval(spawnInterval));
+        StartCoroutine(SpawnInterval(difficulty));
     }
 
     void SpawnRandomEnemy() {

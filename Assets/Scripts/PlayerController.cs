@@ -4,24 +4,26 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    private Vector3 gravity = Physics.gravity;
+    public float gravityModifier;
     public float speed = 5.0f;
     public float jumpForce = 10;
+    public float xBound = 6.0f;
     private bool isOnGround = true;
+
     public bool gameOver = false;
-    public float gravityModifier;
+    public bool isAlive = false;
+
     private Rigidbody playerRb;
     private Animator playerAnim;
-    public float xBound = 6.0f;
-    public bool isAlive = false;
+
     public GameObject arrowBox;
     public GameObject arrow;
     public float arrowCooldown = 0.05f;
     private bool canShoot = true;
+
     private GameManager gameManager;
-    private Vector3 gravity = Physics.gravity;
 
-
-    // Start is called before the first frame update
     void Start()
     {
         playerRb = GetComponent<Rigidbody>();
@@ -31,7 +33,6 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    // Update is called once per frame
     void Update()
     {
         MovePlayer();
@@ -94,7 +95,6 @@ public class PlayerController : MonoBehaviour
                 playerAnim.Play("Jump");
             }
         }
-        
     }
 
     private IEnumerator ShootArrowCooldown() {

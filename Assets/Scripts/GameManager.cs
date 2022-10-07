@@ -16,23 +16,19 @@ public class GameManager : MonoBehaviour
     private PlayerController playerController;
     private SpawnManager spawnManager;
 
-    private float spawnInterval;
-    private float spawnRandLo = 3;
-    private float spawnRandHi = 6;
-
     private int score; 
+    public float difficulty;
 
     void Start()
     {
         playerController = GameObject.Find("Player").GetComponent<PlayerController>();
         spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
-
     }
 
-    // public void UpdateScore(int scoreToAdd) {
-    //     score += scoreToAdd;
-    //     scoreText.text = "Score: " + score;
-    // }
+    public void UpdateScore(int scoreToAdd) {
+        score += scoreToAdd;
+        scoreText.text = "Score: " + score;
+    }
 
     public void GameOver() {
         gameOverText.gameObject.SetActive(true);
@@ -44,16 +40,13 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    public void StartGame(int difficulty) {
-
-        spawnRandLo /= difficulty;
-        spawnRandHi /= difficulty;
-
+    public void StartGame(float dif) {
+        difficulty = dif;
+        Debug.Log("Difficulty = " + difficulty);
         titleScreen.gameObject.SetActive(false);
-        spawnInterval = Random.Range(spawnRandLo, spawnRandHi);
-        StartCoroutine(spawnManager.SpawnInterval(spawnInterval));
+        StartCoroutine(spawnManager.SpawnInterval(difficulty));
         playerController.isAlive = true;
-        //score = 0;
-        //UpdateScore(0);
+        score = 0;
+        UpdateScore(0);
     }
 }
